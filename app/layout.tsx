@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { inter } from "./ui/fonts";
 
 export const metadata: Metadata = {
   title: '%s | Endemias',
@@ -15,7 +16,7 @@ export default function RootLayout({
     <html
       lang="en"
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className={`${inter.className} min-h-full flex flex-col`}>{children}</body>
     </html>
   );
 }
