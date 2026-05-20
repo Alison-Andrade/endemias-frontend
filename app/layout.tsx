@@ -3,7 +3,7 @@ import "./globals.css";
 import { inter } from "./ui/fonts";
 
 export const metadata: Metadata = {
-  title: '%s | Endemias',
+  title: "%s | Endemias",
   description: "Sistema de gerenciamento de Reconhecimentos Geograficos",
 };
 
@@ -13,10 +13,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-    >
-      <body className={`${inter.className} min-h-full flex flex-col`}>{children}</body>
+    <html lang="en">
+      <body className={`${inter.className} min-h-full flex flex-col`}>
+        {children}
+      </body>
     </html>
   );
 }
