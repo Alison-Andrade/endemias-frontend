@@ -3,7 +3,10 @@ import "./globals.css";
 import { inter } from "./ui/fonts";
 
 export const metadata: Metadata = {
-  title: "%s | Endemias",
+  title: {
+    template: '%s | Endemias',
+    default: 'Endemias'
+  },
   description: "Sistema de gerenciamento de Reconhecimentos Geograficos",
 };
 
