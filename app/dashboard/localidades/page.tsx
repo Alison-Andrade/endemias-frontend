@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default async function Page() {
 
   return (
-    <div className="p-6">
+    <div className="p-1 md:p-6">
       <div className="flex flex-col justify-between md:flex-row">
         <h1 className="text-2xl font-bold mb-4">Localidades</h1>
         <NovaLocalidadeButton />
