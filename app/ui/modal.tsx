@@ -10,7 +10,7 @@ export default function Modal({ isOpen, onClose, children }: ModalProps) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-9999 flex items-center justify-center" style={{touchAction: 'manipulation'}}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center m-4 md:m-0">
       <div className="fixed inset-0 bg-black/50" onClick={onClose} />
 
       <div className="relative z-10 w-full max-w-4xl p-6 bg-white rounded-lg shadow-xl dark:bg-gray-800">

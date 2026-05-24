@@ -1,42 +1,49 @@
-'use client'
+"use client";
+
+import { Button } from "../button";
+import { Input, Select } from "../form-input";
 
 export default function FormLocalidade() {
   return (
     <form action={() => {}}>
-      <div className="flex w-full">
-        <div className="flex w-full flex-col">
-          <label
-            className="mb-3 mt-5 text-xs font-medium text-gray-900 dark:text-gray-100"
-            htmlFor="nome"
-          >
-            Nome
-          </label>
-          <input
-            className="peer block w-full rounded-md border border-gray-200 py-2.25 pl-10 text-sm outline-2 placeholder:text-gray-500"
-            id="nome"
-            type="text"
-            name="nome"
-            placeholder="Nome da Localidade"
-            required
-          />
-        </div>
-        <div className="flex flex-col w-full">
-          <label
-            className="mb-3 mt-5 text-xs font-medium text-gray-900 dark:text-gray-100"
-            htmlFor="nome"
-          >
-            Nome
-          </label>
-          <input
-            className="peer block w-full rounded-md border border-gray-200 py-2.25 pl-10 text-sm outline-2 placeholder:text-gray-500"
-            id="nome"
-            type="text"
-            name="nome"
-            placeholder="Nome da Localidade"
-            required
-          />
-        </div>
+      <div className="flex w-full flex-col md:flex-row md:gap-10">
+        <Input
+          label="Codigo"
+          id="codigo"
+          name="codigo"
+          placeholder="Digite o codigo da localidade"
+          type="text"
+          required
+        />
+        <Input
+          label="Nome"
+          id="nome"
+          name="nome"
+          placeholder="Digite o nome da localidade"
+          required
+        />
       </div>
+      <div className="flex w-full flex-col md:flex-row md:gap-10">
+        <Select id="categoria" label="Categoria">
+          <option value="" disabled>
+            Escolha uma categoria
+          </option>
+          <option value="BR">BAIRRO</option>
+          <option value="PV">POVOADO</option>
+          <option value="ST">SITIO</option>
+          <option value="FZ">FAZENDA</option>
+        </Select>
+        <Select id="tipo" label="Tipo">
+          <option value="" disabled>
+            Escolha um tipo
+          </option>
+          <option value="SEDE">SEDE</option>
+          <option value="OUTRO">OUTRO</option>
+        </Select>
+      </div>
+      <Button className="mt-5 w-full justify-center md:mt-10 md:hover:cursor-pointer">
+        Salvar
+      </Button>
     </form>
   );
 }
