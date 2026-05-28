@@ -12,7 +12,7 @@ interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, id, ...props }, ref) => (
+  ({ label, id, className, ...props }, ref) => (
     <div className="flex flex-col w-full">
       <label
         htmlFor={id}
@@ -23,7 +23,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       <input
         ref={ref}
         id={id}
-        className="peer block w-full rounded-md border border-gray-200 py-2.25 pl-2 text-sm outline-2 placeholder:text-gray-500"
+        className={clsx(
+          "peer block w-full rounded-md border border-gray-200 py-2.25 pl-2 text-sm outline-2 placeholder:text-gray-500",
+          className
+        )}
         {...props}
       />
     </div>

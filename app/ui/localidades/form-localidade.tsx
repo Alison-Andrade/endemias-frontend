@@ -16,6 +16,15 @@ export default function FormLocalidade() {
     })
   }
 
+  const [value, setValue] = useState("");
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value;
+
+    const onlyNums = inputValue.replace(/[^0-9]/g, "");
+    setValue(onlyNums);
+  };
+
   return (
     <form action={handleSubmit}>
       <div className="flex w-full flex-col md:flex-row md:gap-10">
@@ -26,6 +35,11 @@ export default function FormLocalidade() {
           placeholder="Digite o codigo da localidade"
           type="text"
           required
+          inputMode="numeric"
+          pattern="[0-9]*"
+          onChange={handleChange}
+          value={value}
+          className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
         />
         <Input
           label="Nome"
