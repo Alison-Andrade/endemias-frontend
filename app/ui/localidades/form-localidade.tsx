@@ -1,32 +1,38 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { Button } from "../button";
 import { Input, Select } from "../form-input";
 import { cadastrarLocalidadeAction } from "@/app/lib/actions";
+import { CategoriaLocalidade, TipoLocalidade } from "@/app/lib/enums";
 
-export default function FormLocalidade() {
-  const [isPending, startTransition] = useTransition();
-  const [status, setSatus] = useState<{ success: boolean; message: string } | null>(null);
+interface FormLocalidadeProps {
+  onSuccess: () => void;
+}
 
-  const handleSubmit = async (formData: FormData) => {
-    startTransition(async () => {
-      const result = await cadastrarLocalidadeAction(formData);
-      setSatus(result);
-    })
-  }
+export default function FormLocalidade({ onSuccess }: FormLocalidadeProps) {
+  const [state, formAction, isPending] = useActionState(
+    cadastrarLocalidadeAction,
+    { success: false, error: "" },
+  );
+  const [codigoValue, setCodigoValue] = useState("");
 
-  const [value, setValue] = useState("");
+  useEffect(() => {
+    if (state?.success && onSuccess) {
+      onSuccess();
+    }
+  }, [state?.success, onSuccess]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value;
-
-    const onlyNums = inputValue.replace(/[^0-9]/g, "");
-    setValue(onlyNums);
+  const handleCodigoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const onlyNums = e.target.value.replace(/[^0-9]/g, "");
+    setCodigoValue(onlyNums);
   };
 
+  const categoriaLocalidade = Object.entries(CategoriaLocalidade);
+  const tipoLocalidade = Object.entries(TipoLocalidade);
+
   return (
-    <form action={handleSubmit}>
+    <form action={formAction}>
       <div className="flex w-full flex-col md:flex-row md:gap-10">
         <Input
           label="Codigo"
@@ -37,8 +43,8 @@ export default function FormLocalidade() {
           required
           inputMode="numeric"
           pattern="[0-9]*"
-          onChange={handleChange}
-          value={value}
+          onChange={handleCodigoChange}
+          value={codigoValue}
           className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
         />
         <Input
@@ -54,30 +60,37 @@ export default function FormLocalidade() {
           <option value="" disabled>
             Escolha uma categoria
           </option>
-          <option value="BR">BAIRRO</option>
-          <option value="PV">POVOADO</option>
-          <option value="ST">SITIO</option>
-          <option value="FZ">FAZENDA</option>
+          {categoriaLocalidade.map(([key, value]) => (
+            <option key={key} value={value}>
+              {value}
+            </option>
+          ))}
         </Select>
         <Select id="tipo" label="Tipo" name="tipo">
           <option value="" disabled>
             Escolha um tipo
           </option>
-          <option value="SEDE">SEDE</option>
-          <option value="OUTRO">OUTRO</option>
+          {tipoLocalidade.map(([key, value]) => (
+            <option key={key} value={value}>
+              {value}
+            </option>
+          ))}
         </Select>
       </div>
 
       {status && (
         <p
-          style={{ marginTop: "15px", color: status.success ? "green" : "red" }}
+          style={{ marginTop: "15px", color: state?.success ? "green" : "red" }}
         >
-          {status.message}
+          {state?.error}
         </p>
       )}
 
-      <Button className="mt-5 w-full justify-center md:mt-10 md:hover:cursor-pointer">
-        Salvar
+      <Button
+        disabled={isPending}
+        className="mt-5 w-full justify-center md:mt-10 md:hover:cursor-pointer"
+      >
+        {isPending ? "Salvando..." : "Salvar"}
       </Button>
     </form>
   );

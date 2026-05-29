@@ -2,6 +2,7 @@ import Link from "next/link";
 import { PowerIcon } from "@heroicons/react/24/outline";
 import NavLinks from "./nav-links";
 import Image from "next/image";
+import { signOutAction } from "@/app/lib/actions";
 
 export default function SideNav() {
   return (
@@ -27,6 +28,7 @@ export default function SideNav() {
         <form
           action={async () => {
             "use server";
+            await signOutAction();
           }}
         >
           <button className="flex h-12 w-full grow items-center justify-center gap-2 rounded-md bg-gray-50 dark:bg-gray-700 p-3 text-sm font-medium hover:bg-sky-100 dark:hover:bg-sky-800 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3">

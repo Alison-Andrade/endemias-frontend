@@ -22,7 +22,7 @@ export default function NovaLocalidadeButton() {
         <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">
             Cadastrar Nova Localidade
           </h2>
-          <FormLocalidade />
+          <FormLocalidade onSuccess={() => setIsModalOpen(false)} />
       </Modal>
     </>
   );

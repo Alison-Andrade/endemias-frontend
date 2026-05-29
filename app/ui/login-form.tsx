@@ -2,43 +2,49 @@
 
 import {
   ArrowRightIcon,
-  AtSymbolIcon,
+  IdentificationIcon,
   LockClosedIcon,
 } from "@heroicons/react/24/outline";
 import { useSearchParams } from "next/navigation";
 import { Button } from "./button";
+import { handleLoginAction } from "../lib/actions";
+import { useActionState } from "react";
 
 export default function LoginForm() {
+  const [state, formAction, isPending] = useActionState(handleLoginAction, {
+    success: false,
+    error: "",
+  });
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
 
   return (
-    <form action={() => {}} className="space-y-3">
+    <form action={formAction} className="space-y-3">
       <div className="flex-1 rounded-lg bg-gray-50 dark:bg-gray-900 px-6 pb-4 pt-8">
         <h1 className="mb-3 text-2xl">Log in</h1>
         <div className="w-full">
           <div>
             <label
               className="mb-3 mt-5 text-xs font-medium text-gray-900 dark:text-gray-100"
-              htmlFor="email"
+              htmlFor="username"
             >
-              Email
+              Matrícula, CPF ou E-mail
             </label>
             <div className="relative">
               <input
                 className="peer block w-full rounded-md border border-gray-200 py-2.25 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                id="email"
-                type="email"
-                name="email"
-                placeholder="Digite seu email"
+                id="username"
+                type="text"
+                name="username"
+                placeholder="Digite sua Matrícula, CPF ou E-mail"
                 required
               />
-              <AtSymbolIcon className="pointer-events-none absolute left-3 top-1/2 h-4.5 w-4.5 -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 dark:peer-focus:text-white"/>
+              <IdentificationIcon className="pointer-events-none absolute left-3 top-1/2 h-4.5 w-4.5 -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 dark:peer-focus:text-white" />
             </div>
           </div>
           <div className="mt-4">
             <label
-              className="mb-3 mt-5 text-xs font-medium text-gray-900 dark:text-gray-100" 
+              className="mb-3 mt-5 text-xs font-medium text-gray-900 dark:text-gray-100"
               htmlFor="password"
             >
               Password
@@ -57,8 +63,15 @@ export default function LoginForm() {
             </div>
           </div>
         </div>
+
+        {state?.error ? (
+          <p className="mt-2 text-sm text-red-500">{state.error}</p>
+        ) : (
+          <br />
+        )}
+
         <input type="hidden" name="redirectTo" value={callbackUrl} />
-        <Button className="mt-4 w-full">
+        <Button className="mt-4 w-full" disabled={isPending}>
           Log in <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
         </Button>
       </div>

@@ -7,9 +7,20 @@ export const api = axios.create({
     },
 });
 
-api.interceptors.request.use((config) => {
+api.interceptors.request.use( async (config) => {
 
-    //TO-DO: adicionar logica de validação de token
+    if (typeof window === 'undefined') {
+        try {
+            const { cookies } = await import('next/headers');
+            const cookieStore = await cookies();
+            const token = cookieStore.get('auth_token')?.value;
 
+            if (token && config.headers) {
+                config.headers.Authorization = `Bearer ${token}`;
+            }
+        } catch (error) {
+            console.error('Erro ao obter cookies:', error);
+        }
+    }
     return config;
 })
